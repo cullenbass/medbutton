@@ -93,6 +93,9 @@ resource "aws_lambda_function" "func" {
       SNS_TOPIC = aws_sns_topic.sns.arn
     }
   }
+  lifecycle {
+    ignore_changes = [environment]
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "trigger" {
