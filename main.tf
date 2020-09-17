@@ -123,8 +123,8 @@ resource "aws_sns_topic" "sns" {
 }
 
 resource "aws_sns_topic_subscription" "phone" {
-  count = length(var.phones)
+  for_each = toset(var.phones)
   topic_arn = aws_sns_topic.sns.arn
   protocol = "sms"
-  endpoint = var.phones[count.index]
+  endpoint = each.key
 }
