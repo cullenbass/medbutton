@@ -2,6 +2,8 @@
 
 ## Automated reminders for taking medication twice a day
 
+**REQUIRES MANUAL SETUP OF PINPOINT SMS NUMBER AND IOT BUTTON**
+
 ## Installation
 
 1. Installs into an AWS account using `terraform`. Uses remote state, but no state locking.

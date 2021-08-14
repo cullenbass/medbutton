@@ -3,6 +3,12 @@ terraform {
     key = "medbutton"
     region = "us-east-1"
   }
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 3.54.0"
+    }
+  }
 }
 
 provider "aws" {
@@ -120,6 +126,18 @@ resource "aws_lambda_permission" "cw_perm" {
 
 resource "aws_sns_topic" "sns" {
   name = "${var.prefix}-medbutton"
+  lifecycle {
+    ignore_changes = [
+      application_failure_feedback_role_arn,
+      application_success_feedback_role_arn,
+      http_failure_feedback_role_arn,
+      http_success_feedback_role_arn,
+      lambda_failure_feedback_role_arn,
+      lambda_success_feedback_role_arn,
+      sqs_failure_feedback_role_arn,
+      sqs_success_feedback_role_arn
+    ]
+  }
 }
 
 resource "aws_sns_topic_subscription" "phone" {

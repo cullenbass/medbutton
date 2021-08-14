@@ -132,3 +132,4 @@ dmypy.json
 
 *.tfvars
 .terraform/
+.terraform.lock.hcl
