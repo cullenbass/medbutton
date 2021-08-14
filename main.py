@@ -8,7 +8,7 @@ tz = dateutil.tz.gettz('US/Eastern')
 # Specify hours in 24-hour format w/ above timezone.
 # Crossover is specifying any activity before that hour is morning
 # and anything after is evening.
-hour_replace = {'morning' : 10, 'evening': 22, 'crossover': 13}
+hour_replace = {'morning' : 11, 'evening': 21, 'crossover': 13}
 
 def buttonHandler(event, context):
 	# if event['clickType'] == 'SINGLE':
