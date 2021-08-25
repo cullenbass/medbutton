@@ -11,7 +11,6 @@ tz = dateutil.tz.gettz('US/Eastern')
 hour_replace = {'morning' : 11, 'evening': 21, 'crossover': 13}
 
 def buttonHandler(event, context):
-	# if event['clickType'] == 'SINGLE':
 	l = boto3.client('lambda')
 	l.update_function_configuration(FunctionName = context.function_name, Environment={
 		'Variables':{
@@ -19,13 +18,6 @@ def buttonHandler(event, context):
 			'SNS_TOPIC' : os.environ['SNS_TOPIC']
 		}
 	})
-	# if event['clickType'] == 'DOUBLE':
-	# 	l.update_function_configuration(FunctionName = context.function_name, Environment={
-	# 		'Variables':{
-	# 			'LAST_PUSHED' : '0',
-	# 			'SNS_TOPIC' : os.environ['SNS_TOPIC']
-	# 		}
-	# 	})
 
 def cronHandler(event, context): 
 	if int(os.environ['LAST_PUSHED']) == 0:
@@ -55,7 +47,7 @@ def cronHandler(event, context):
 
 
 def handler(event, context):
-	if 'clickType' in event:
+	if 'deviceEvent' in event:
 		return buttonHandler(event, context)
 	else:
 		return cronHandler(event, context)
