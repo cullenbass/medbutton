@@ -47,7 +47,7 @@ def cronHandler(event, context):
 
 
 def handler(event, context):
-	if 'deviceEvent' in event:
+	if 'headers' in event:
 		return buttonHandler(event, context)
 	else:
 		return cronHandler(event, context)

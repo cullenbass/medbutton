@@ -6,7 +6,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "~> 3.54.0"
+      version = "~> 5.82.2"
     }
   }
 }
@@ -92,7 +92,7 @@ resource "aws_lambda_function" "func" {
   role = aws_iam_role.role.arn
   handler = "main.handler"
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  runtime = "python3.8"
+  runtime = "python3.13"
   environment {
     variables = {
       LAST_PUSHED = "0",
@@ -145,4 +145,13 @@ resource "aws_sns_topic_subscription" "phone" {
   topic_arn = aws_sns_topic.sns.arn
   protocol = "sms"
   endpoint = each.key
+}
+
+resource "aws_lambda_function_url" "func" {
+  function_name = aws_lambda_function.func.function_name
+  authorization_type = "NONE"
+}
+
+output "url" {
+  value = aws_lambda_function_url.func.function_url
 }
