@@ -1,3 +1,4 @@
+# both boto3 and dateutil come preinstalled in lambda runtimes
 import boto3
 import os
 import json
@@ -23,6 +24,7 @@ def button_handler(event, context):
 			}
 		}
 	)
+	print('Button Pushed.')
 
 
 def cron_handler(event, context):
