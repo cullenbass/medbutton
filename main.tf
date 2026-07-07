@@ -147,6 +147,20 @@ resource "aws_sns_topic_subscription" "phone" {
   endpoint = each.key
 }
 
+resource "aws_lambda_permission" "sns_invoke" {
+  statement_id  = "AllowExecutionFromSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.func.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = aws_sns_topic.sns.arn
+}
+
+resource "aws_sns_topic_subscription" "lambda_sms" {
+  topic_arn = aws_sns_topic.sns.arn
+  protocol  = "lambda"
+  endpoint  = aws_lambda_function.func.arn
+}
+
 resource "aws_lambda_function_url" "func" {
   function_name = aws_lambda_function.func.function_name
   authorization_type = "NONE"
