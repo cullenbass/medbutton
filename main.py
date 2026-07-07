@@ -61,9 +61,19 @@ def cron_handler(event, context):
 def sms_handler(event, context):
 	"""Handle incoming SMS messages via SNS. If message is 'PUSH', act like a button press."""
 	for record in event.get('Records', []):
-		body = json.loads(record['Sns']['Message'])
-		message = body.get('Body', '').strip().upper()
-		phone_number = body.get('PhoneNumber', 'unknown')
+		sns_message = record['Sns']['Message']
+		# Handle both JSON and plain-text SMS messages
+		try:
+			body = json.loads(sns_message)
+		except (json.JSONDecodeError, TypeError):
+			body = {}
+
+		if isinstance(body, dict):
+			message = body.get('messageBody', body.get('Body', '')).strip().upper()
+			phone_number = body.get('originationNumber', body.get('PhoneNumber', 'unknown'))
+		else:
+			message = str(body).strip().upper()
+			phone_number = 'unknown'
 
 		if message == 'PUSH':
 			print(f"SMS PUSH received from {phone_number}")
