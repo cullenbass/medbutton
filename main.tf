@@ -76,7 +76,7 @@ resource "aws_iam_role_policy" "sns" {
       "Resource": "${aws_sns_topic.sns.arn}"
     },
     {
-      "Action": ["lambda:InvokeFunction"],
+      "Action": ["lambda:*"],
       "Effect": "Allow",
       "Resource": "${aws_lambda_function.func.arn}"
     }
